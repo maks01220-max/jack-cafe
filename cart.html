@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина — Jack cafe</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .qty-btn { width: 30px; height: 30px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+        body.dark-theme .qty-btn { background: #222; color: #fff; border-color: #444; }
+    </style>
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    </script>
+
+    <nav class="navbar navbar-expand-lg sticky-top shadow-sm main-nav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Jack cafe</a>
+            <div class="ml-auto d-flex align-items-center">
+                <button id="theme-toggle" class="theme-btn mr-4" title="Сменить тему">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="index.html" class="btn btn-outline-dark btn-sm px-4 rounded-0">В меню</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5 reveal active">
+        <h2 class="mb-5 text-center">Раздел заказов</h2>
+        
+        <div id="cart-filled" style="display: none;">
+            <div class="table-responsive border shadow-sm">
+                <table class="table text-center mb-0 bg-white">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="text-left pl-4">Товар</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
+                            <th>Сумма</th>
+                            <th>Удалить</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-tbody"></tbody>
+                </table>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center mt-4 p-4 bg-white border shadow-sm">
+                <h4 class="m-0 font-weight-bold">Итого: <span id="cart-total" style="color: #c5a880;">0 ₽</span></h4>
+                <a href="order.html" class="btn btn-dark btn-lg px-5 rounded-0">Оформить заказ</a>
+            </div>
+        </div>
+
+        <div id="cart-empty" class="text-center py-5" style="display: none;">
+            <i class="fas fa-box-open fa-4x mb-4 text-muted"></i>
+            <h4 class="font-weight-normal">Ваша корзина пуста</h4>
+            <a href="index.html" class="btn btn-dark px-5 mt-3 rounded-0">В каталог</a>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showCartList();
+        });
+
+        // Функция отрисовки корзины
+        const showCartList = () => {
+            const list = getCartData();
+            const tbody = document.getElementById('cart-tbody');
+            const filledBlock = document.getElementById('cart-filled');
+            const emptyBlock = document.getElementById('cart-empty');
+            
+            if (list.length > 0) {
+                filledBlock.style.display = 'block';
+                emptyBlock.style.display = 'none';
+                tbody.innerHTML = '';
+                
+                let totalCost = 0;
+
+                list.forEach((product, idx) => {
+                    const currentSum = product.price * product.qty;
+                    totalCost += currentSum;
+                    
+                    // Используем шаблонные строки для создания HTML
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="text-left pl-4 font-weight-bold align-middle">${product.name}</td>
+                        <td class="align-middle">${product.price} ₽</td>
+                        <td class="align-middle">
+                            <button type="button" class="qty-btn" onclick="modifyQuantity(${idx}, -1)">-</button>
+                            <span class="mx-3 font-weight-bold">${product.qty}</span>
+                            <button type="button" class="qty-btn" onclick="modifyQuantity(${idx}, 1)">+</button>
+                        </td>
+                        <td class="font-weight-bold align-middle">${currentSum} ₽</td>
+                        <td class="align-middle">
+                            <button type="button" class="btn text-danger" onclick="deleteItem(${idx})"><i class="fas fa-times"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                
+                document.getElementById('cart-total').innerText = `${totalCost} ₽`;
+            } else {
+                filledBlock.style.display = 'none';
+                emptyBlock.style.display = 'block';
+            }
+        };
+
+        // Изменение количества товара
+        const modifyQuantity = (idx, change) => {
+            const data = getCartData();
+            data[idx].qty += change;
+            
+            // Если количество 0, убираем товар из корзины
+            if (data[idx].qty <= 0) {
+                data.splice(idx, 1);
+            }
+            
+            saveCartData(data);
+            showCartList();
+            updateCartCounter();
+        };
+
+        // Удаление товара (кнопка крестик)
+        const deleteItem = (idx) => {
+            const data = getCartData();
+            data.splice(idx, 1);
+            
+            saveCartData(data);
+            showCartList();
+            updateCartCounter();
+        };
+    </script>
+</body>
+</html>

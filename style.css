@@ -1,0 +1,126 @@
+/* Общие стили проекта */
+html { scroll-behavior: smooth; }
+
+body { 
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fcfcfc;
+    color: #1a1a1a;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+h1, h2, h3, h4, h5, .navbar-brand {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Навигационная панель */
+.navbar { 
+    background-color: #ffffff !important; 
+    border-bottom: 1px solid #e0e0e0; 
+}
+.nav-link { 
+    font-weight: 600; 
+    text-transform: uppercase; 
+    font-size: 0.85rem; 
+    letter-spacing: 1px; 
+    color: #1a1a1a !important; 
+}
+.nav-link:hover { color: #c5a880 !important; }
+.navbar-brand { font-size: 1.5rem; font-weight: 700; color: #000 !important; }
+
+/* Сохраняем анимации появления при скролле */
+.reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Главный баннер (фото помещения) */
+.hero-section { 
+    background: linear-gradient(rgba(18, 18, 18, 0.65), rgba(18, 18, 18, 0.65)), url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200') center/cover no-repeat;
+    color: #ffffff;
+    padding: 130px 0; 
+    text-align: center; 
+    margin-bottom: 50px; 
+}
+.hero-section h1 { font-size: 3.5rem; }
+.subtitle-text { color: #e0e0e0; }
+
+/* Карточки товаров */
+.card { 
+    border-radius: 0; 
+    border: 1px solid #e0e0e0; 
+    background-color: #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.06); 
+}
+.clickable-area { cursor: pointer; }
+.card-img-top { 
+    width: 100%; 
+    height: 240px; 
+    object-fit: cover; 
+}
+
+/* Кнопки */
+.btn-dark { 
+    border-radius: 0; 
+    font-weight: 600; 
+    text-transform: uppercase; 
+    font-size: 0.8rem; 
+    padding: 12px; 
+}
+.btn-dark:hover { background-color: #c5a880; border-color: #c5a880; }
+.btn-outline-light { border-radius: 0; font-weight: 600; text-transform: uppercase; }
+
+.sorting-options { border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; margin-bottom: 35px; }
+.form-control { border-radius: 0; }
+.price-text { font-size: 1.15rem; font-weight: 600; color: #000; }
+
+/* Уведомление (Тост) */
+.custom-toast {
+    position: fixed; top: 20px; right: 20px; background: #000; color: #fff;
+    padding: 15px 25px; z-index: 9999; opacity: 0; visibility: hidden;
+    transform: translateY(-10px); transition: 0.3s ease; border-left: 4px solid #c5a880;
+}
+.custom-toast.show { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.theme-btn { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; outline: none; color: inherit; }
+
+/* ========================================= */
+/* === ИСПРАВЛЕННАЯ ТЕМНАЯ ТЕМА ДЛЯ BODY === */
+/* ========================================= */
+body.dark-theme { 
+    background-color: #121212 !important; 
+    color: #f0f0f0 !important; 
+}
+body.dark-theme .navbar { 
+    background-color: #1a1a1a !important; 
+    border-color: #2a2a2a; 
+}
+body.dark-theme .nav-link { color: #f0f0f0 !important; }
+body.dark-theme .navbar-brand { color: #fff !important; }
+body.dark-theme .sorting-options { border-color: #333; }
+
+body.dark-theme .card { 
+    background-color: #1a1a1a !important; 
+    border-color: #333 !important; 
+}
+body.dark-theme .price-text { color: #fff !important; }
+body.dark-theme .form-control { background-color: #222; color: #fff; border-color: #444; }
+body.dark-theme .modal-content { background-color: #1a1a1a; color: #f0f0f0; }
+body.dark-theme .modal-header { border-bottom: 1px solid #333; }
+body.dark-theme .modal-header .close { color: #fff; }
+body.dark-theme .btn-dark { background-color: #fff; color: #000; border-color: #fff; }
+body.dark-theme .btn-dark:hover { background-color: #c5a880; color: #fff; }
+body.dark-theme .badge-light { background-color: #333; color: #fff; border-color: #444 !important; }
+
+/* Для страниц корзины и контактов */
+body.dark-theme .table { background-color: #1a1a1a; color: #f0f0f0; }
+body.dark-theme .table thead-light th { background-color: #222; color: #fff; border-color: #333; }
+body.dark-theme .bg-white { background-color: #1a1a1a !important; border-color: #333 !important; }

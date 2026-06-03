@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная — Jack cafe</title>
+    <!-- Подключаем Бутстрап и иконки -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Скрипт против мерцания темы (лайфхак с форумов) -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    </script>
+
+    <!-- Всплывающее уведомление -->
+    <div id="toast" class="custom-toast">
+        <i class="fas fa-check mr-2" style="color: #c5a880;"></i>Товар добавлен в заказ
+    </div>
+
+    <!-- Шапка сайта -->
+    <nav class="navbar navbar-expand-lg sticky-top shadow-sm main-nav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Jack cafe</a>
+            <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="#catalog">Каталог</a></li>
+                    <li class="nav-item"><a class="nav-link" href="order.html">Оформить заказ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacts.html">Контакты</a></li>
+                </ul>
+                <div class="d-flex align-items-center mt-3 mt-lg-0">
+                    <!-- Кнопка переключения темы -->
+                    <button id="theme-toggle" class="theme-btn mr-4" title="Сменить тему">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <!-- Корзина -->
+                    <a href="cart.html" class="nav-link text-decoration-none p-0 d-flex align-items-center cart-link">
+                        <i class="fas fa-shopping-bag fa-lg"></i>
+                        <span class="badge badge-dark rounded-0 ml-1" id="cart-counter">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Большой баннер с интерьером кафе -->
+    <header class="hero-section reveal active"> 
+        <div class="container px-3">
+            <h1 class="mb-4">Искусство кофе</h1>
+            <p class="lead mb-4 subtitle-text">
+                Лучший спешелти итальянский кофе в городе Ялте.
+            </p>
+            <a href="#catalog" class="btn btn-outline-light btn-lg px-5 mt-3 hero-btn">Перейти к меню</a>
+        </div>
+    </header>
+
+    <!-- Основной контент страницы -->
+    <main class="container my-5" id="catalog">
+        <!-- Блок сортировки -->
+        <div class="sorting-options d-flex align-items-center justify-content-between flex-wrap reveal">
+            <h4 class="m-0 text-uppercase" style="font-size: 1.1rem; letter-spacing: 1px;">Наш ассортимент</h4>
+            <div class="d-flex align-items-center mt-3 mt-sm-0">
+                <span class="mr-3 font-weight-bold" style="font-size: 0.85rem; text-transform: uppercase;">Сортировка:</span>
+                <select id="sort-select" class="form-control" style="width: 220px; font-size: 0.9rem;">
+                    <option value="pop_desc" selected>По популярности</option>
+                    <option value="price_asc">Сначала дешевые</option>
+                    <option value="price_desc">Сначала дорогие</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Сетка товаров (Флэт Уайт удален) -->
+        <div class="row" id="product-grid">
+            
+            <!-- Карточка 1 -->
+            <div class="col-md-6 col-lg-4 mb-4 product-card reveal" data-price="250" data-pop="100">
+                <div class="card h-100 text-center">
+                    <div class="clickable-area" onclick="showDetails('Классический Капучино', 'Эспрессо, подогретое молоко и густая молочная пенка.', 'Изобретен в Италии. Название произошло от ордена монахов-капуцинов из-за цвета их ряс.')">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1534778101976-62847782c213?q=80&w=400" alt="Капучино">
+                        <div class="p-3">
+                            <h5 class="font-weight-bold mb-1">Классический Капучино</h5>
+                            <p class="text-muted small mb-0">Мягкий вкус и плотная пена</p>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 d-flex flex-column justify-content-end">
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                            <span class="price-text">250 ₽</span>
+                            <span class="badge badge-light border"><i class="fas fa-star mr-1" style="color: #c5a880;"></i> Хит</span>
+                        </div>
+                        <button class="btn btn-dark btn-block btn-buy" data-name="Классический Капучино" data-price="250">В заказ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Карточка 2 -->
+            <div class="col-md-6 col-lg-4 mb-4 product-card reveal" data-price="180" data-pop="95">
+                <div class="card h-100 text-center">
+                    <div class="clickable-area" onclick="showDetails('Итальянский Эспрессо', '30 мл чистого кофейного экстракта из зерен темной итальянской обжарки.', 'Появился в Милане в начале 20 века. Это основа кофейной культуры Италии.')">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=400" alt="Эспрессо">
+                        <div class="p-3">
+                            <h5 class="font-weight-bold mb-1">Итальянский Эспрессо</h5>
+                            <p class="text-muted small mb-0">Крепкий и насыщенный</p>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 d-flex flex-column justify-content-end">
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                            <span class="price-text">180 ₽</span>
+                        </div>
+                        <button class="btn btn-dark btn-block btn-buy" data-name="Итальянский Эспрессо" data-price="180">В заказ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Карточка 3 -->
+            <div class="col-md-6 col-lg-4 mb-4 product-card reveal" data-price="330" data-pop="88">
+                <div class="card h-100 text-center">
+                    <div class="clickable-area" onclick="showDetails('Раф Кофе', 'Эспрессо, 11% сливки, ванильный сахар. Взбивается паром.', 'Уникальный напиток, придуманный в Москве в 1990-х годах специально для посетителя Рафаэля.')">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1557006021-b85faa2bc5e2?q=80&w=400" alt="Раф Кофе">
+                        <div class="p-3">
+                            <h5 class="font-weight-bold mb-1">Раф Кофе</h5>
+                            <p class="text-muted small mb-0">Сливочный и ванильный</p>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 d-flex flex-column justify-content-end">
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                            <span class="price-text">330 ₽</span>
+                        </div>
+                        <button class="btn btn-dark btn-block btn-buy" data-name="Раф Кофе" data-price="330">В заказ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Карточка 4 -->
+            <div class="col-md-6 col-lg-4 mb-4 product-card reveal" data-price="850" data-pop="85">
+                <div class="card h-100 text-center">
+                    <div class="clickable-area" onclick="showDetails('Эф. Иргачеффе', '100% арабика зерно. Вес: 250г.', 'Иргачеффе — высокогорный регион Эфиопии. Зерна отсюда ценятся во всем мире.')">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=400" alt="Зерна">
+                        <div class="p-3">
+                            <h5 class="font-weight-bold mb-1">Эфиопия Иргачеффе</h5>
+                            <p class="text-muted small mb-0">Зерновой кофе, 250г</p>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 d-flex flex-column justify-content-end">
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                            <span class="price-text">850 ₽</span>
+                        </div>
+                        <button class="btn btn-dark btn-block btn-buy" data-name="Зерна: Эфиопия Иргачеффе" data-price="850">В заказ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Карточка 5 -->
+            <div class="col-md-6 col-lg-4 mb-4 product-card reveal" data-price="350" data-pop="98">
+                <div class="card h-100 text-center">
+                    <div class="clickable-area" onclick="showDetails('Классический Тирамису', 'Сыр маскарпоне, печенье савоярди, кофе, какао.', 'Знаменитый итальянский десерт. Название переводится как подними мне настроение.')">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=400" alt="Тирамису">
+                        <div class="p-3">
+                            <h5 class="font-weight-bold mb-1">Классический Тирамису</h5>
+                            <p class="text-muted small mb-0">С итальянским эспрессо</p>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 d-flex flex-column justify-content-end">
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                            <span class="price-text">350 ₽</span>
+                        </div>
+                        <button class="btn btn-dark btn-block btn-buy" data-name="Классический Тирамису" data-price="350">В заказ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Карточка 6 -->
+            <div class="col-md-6 col-lg-4 mb-4 product-card reveal" data-price="320" data-pop="90">
+                <div class="card h-100 text-center">
+                    <div class="clickable-area" onclick="showDetails('Нью-Йорк Чизкейк', 'Песочная основа, слой сливочного сыра, ваниль.', 'Рецепт из Нью-Йорка начала 20 века стал мировым стандартом нежного вкуса.')">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=400" alt="Чизкейк">
+                        <div class="p-3">
+                            <h5 class="font-weight-bold mb-1">Нью-Йорк Чизкейк</h5>
+                            <p class="text-muted small mb-0">Нежный сливочный вкус</p>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 d-flex flex-column justify-content-end">
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                            <span class="price-text">320 ₽</span>
+                        </div>
+                        <button class="btn btn-dark btn-block btn-buy" data-name="Нью-Йорк Чизкейк" data-price="320">В заказ</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Окно просмотра деталей товара (Модалка Бутстрапа) -->
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">Название</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body p-4">
+            <h6 class="text-uppercase" style="font-size: 0.8rem; letter-spacing: 1px; color: #c5a880;">Состав:</h6>
+            <p id="modalComposition" class="mb-4"></p>
+            
+            <h6 class="text-uppercase" style="font-size: 0.8rem; letter-spacing: 1px; color: #c5a880;">История:</h6>
+            <p id="modalHistory" class="mb-0 text-justify"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Подключаем скрипты -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
